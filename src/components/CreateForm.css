@@ -1,0 +1,18 @@
+form-popup {
+    position: fixed;
+    top: 0;
+    right: 0; /* Adjust this value to set the distance from the right side */
+    bottom: 0;
+    width: 400px; /* Set the width of the form container */
+    background-color: #fff; /* Optional: Set a background color for the form container */
+    padding: 20px; /* Optional: Add padding to the form container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: Add box shadow for a nice effect */
+  }
+  
+  /* Optional: Add some styles for the form elements inside the form container */
+  .company input[type="text"],
+  .company select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
