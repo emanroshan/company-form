@@ -1,0 +1,75 @@
+
+ /* styles.css */
+.dx-treelist {
+    border: 2px solid #eaf0fa66; /* Add a border around the DataGrid */
+    border-radius: 4px; /* Optional: Add rounded corners to the DataGrid */
+    margin-top: 80px;
+    margin-left: 70px;
+    margin-right: 70px;
+    font-size: 17px;
+    font-weight: 500 !important;
+    font-family: 'Poppins', sans-serif;  
+    height: 100%;
+    box-shadow: inset 3px 0px 4px 0px white;
+    color:   #222f59;;
+    background-color: #eaf0fa66;
+
+  
+  }
+  
+  .dx-treelist-headers > table > tbody > tr > th {
+    border-bottom: 10px solid blue; /* Add a bottom border to the column headers */
+   
+  }
+  
+  .dx-treelist-rowsview, .dx-datagrid-nodata,.dx-state-invisible {
+    display: none;
+  }
+  
+  .dx-treelist-rowsview > table {
+    border-collapse: collapse; /* Optional: Collapse the borders between rows and cells */
+ 
+  }
+  
+  .dx-treelist-rowsview > table td,
+  .dx-treelist-rowsview > table th {
+    border: 1px solid #ccc;
+    padding: 12px; /* Increase the padding to make the cells bigger */
+    font-size: 18px; /* Increase the font size to make the text bigger */
+  }
+  .dx-treelist-rowsview > table td + td,
+  .dx-treelist-rowsview > table th + th {
+    border-left: 5px solid blue; /* Add left borders to the cells to create column lines */
+  }
+  .dx-column
+  {
+    font-weight: 600;
+    font-size: 25px;
+
+  }
+  .dx-navigate-button{
+    width: 20px;
+    height: 20px;
+  }
+
+  .dx-next-button {
+    content: url("https://cdn-icons-png.flaticon.com/512/2989/2989988.png");
+  }
+  .dx-prev-button {
+    content: url("https://cdn.iconscout.com/icon/free/png-256/free-back-arrow-1767523-1502427.png");
+  }
+  .dx-pages-count {
+    margin-left: 5px;
+  }
+  .dx-datagrid-pager, .dx-page-indexes, .dx-light-pages {
+    display: inline-flex;
+    border: none;
+  }
+  .dx-datagrid-pager .dx-texteditor-input:first-child {
+    width: 20px;
+  }
+
+  .dx-page-indexes .dx-texteditor-input {
+    border: none;
+    width: 50px;
+  }
