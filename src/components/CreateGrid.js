@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import "./CreateGrid.css";
-import { TreeList, Paging, Pager, Scrolling } from "devextreme-react/tree-list";
-import FilterMenu from "./FilterMenu";
-import { useQuery, gql } from "@apollo/client";
-import DataGrid, {
-  Column,
-  Search,
-  SearchPanel,
-  FilterRow,
-} from "devextreme-react/data-grid";
+import { TreeList, Column, Paging, Pager,Scrolling, HeaderFilter, Search } from 'devextreme-react/tree-list';
+import { useQuery } from "@apollo/client";
+import { DataGrid } from "devextreme-react";
 import { Pagination } from "antd";
+import { GET_COMPANIES } from "./constants";
 
 const CreateGrid = ({ todos }) => {
   const PAGE_INFO = {
@@ -18,23 +13,8 @@ const CreateGrid = ({ todos }) => {
       pageSize: 200,
     },
   };
-  const GET_COMPANIES = gql`
-    query getAllCom($pageInfo: PageInfoInput) {
-      companies(pageInfo: $pageInfo) {
-        data {
-          id
-          name
-          description
-          code
-          classification
-          country
-          state
-          address
-        }
-      }
-    }
-  `;
-  const { data, loading, error } = useQuery(GET_COMPANIES, {
+
+  const { data, loading, error } =  useQuery(GET_COMPANIES, {
     variables: {
       pageInfo: {
         pageNo: 1,
