@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./CreateGrid.css";
-import { TreeList, Column, Paging, Pager,Scrolling, HeaderFilter, Search } from 'devextreme-react/tree-list';
+import { TreeList, Column, Paging, Pager,Scrolling, HeaderFilter, Search, SearchPanel } from 'devextreme-react/tree-list';
 import { useQuery } from "@apollo/client";
 import { DataGrid } from "devextreme-react";
 import { Pagination } from "antd";
