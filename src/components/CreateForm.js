@@ -4,7 +4,7 @@ import { Button, Modal } from "antd";
 import { useMutation } from "@apollo/client";
 import { CREATE_COMPANY, UPDATE_COMPANY, initialFormData } from "./constants";
 
-const CreateForm = ({ tableData, setTableData }) => {
+const CreateForm = ({ tableData, setTableData}) => {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState(undefined);
   const [formData, setFormData] = useState(initialFormData);
@@ -60,6 +60,7 @@ const CreateForm = ({ tableData, setTableData }) => {
         </div>
       </div>
 
+    
       <Modal
         className="form-modal"
         open={open}
@@ -89,7 +90,7 @@ const CreateForm = ({ tableData, setTableData }) => {
                         <div className="name-field">
                           <label>
                             Name{" "}
-                            <span style={{ color: "red" }}>&#160;&#42;</span>
+                            <span style={{ color: "rgb(236,23,18)" }}>&#160;&#42;</span>
                           </label>
                           <input
                             type="text"
@@ -105,7 +106,7 @@ const CreateForm = ({ tableData, setTableData }) => {
                         <div className="code-field">
                           <label>
                             Code{" "}
-                            <span style={{ color: "red" }}>&#160;&#42;</span>
+                            <span style={{ color: "rgb(236,23,18)" }}>&#160;&#42;</span>
                           </label>
                           <input
                             type="text"
@@ -147,7 +148,7 @@ const CreateForm = ({ tableData, setTableData }) => {
                     <div className="classifies">
                       <label>
                         Classification{" "}
-                        <span style={{ color: "red" }}>&#160;&#42;</span>
+                        <span style={{ color: "rgb(236,23,18)" }}>&#160;&#42;</span>
                       </label>
                       <select
                         id="selectBox"
