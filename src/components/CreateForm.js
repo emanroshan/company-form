@@ -27,7 +27,7 @@ const UPDATE_COMPANY = gql`
   }
 `;
 
-const CreateForm = ({ tableData, setTableData }) => {
+const CreateForm = ({ tableData, setTableData}) => {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState(undefined);
 
@@ -50,7 +50,7 @@ const CreateForm = ({ tableData, setTableData }) => {
       ...prevState,
       ...(typeof f === "string" && { [f]: val }),
     }));
-
+   
     console.log(formData);  
   };
 
@@ -73,8 +73,12 @@ const CreateForm = ({ tableData, setTableData }) => {
         console.log(result);
         console.log(result.data?.createCompany?.id);
         setId(result.data?.createCompany?.id)
+        
       })
     }
+  
+      
+    
   }
 
 
@@ -108,6 +112,7 @@ const CreateForm = ({ tableData, setTableData }) => {
         </div>
       </div>
 
+    
       <Modal
         className="form-modal"
         open={open}
@@ -124,7 +129,7 @@ const CreateForm = ({ tableData, setTableData }) => {
          <section>
           <div className="container">
             <form
-              // onChange={(e) => myFunction(e)}
+             
               onBlur={(e) => myFunction(e)}
             >
               <div className="row">
@@ -140,7 +145,7 @@ const CreateForm = ({ tableData, setTableData }) => {
                         <div className="name-field">
                           <label>
                             Name{" "}
-                            <span style={{ color: "red" }}>&#160;&#42;</span>
+                            <span style={{ color: "rgb(236,23,18)" }}>&#160;&#42;</span>
                           </label>
                           <input
                             type="text"
@@ -156,7 +161,7 @@ const CreateForm = ({ tableData, setTableData }) => {
                         <div className="code-field">
                           <label>
                             Code{" "}
-                            <span style={{ color: "red" }}>&#160;&#42;</span>
+                            <span style={{ color: "rgb(236,23,18)" }}>&#160;&#42;</span>
                           </label>
                           <input
                             type="text"
@@ -198,7 +203,7 @@ const CreateForm = ({ tableData, setTableData }) => {
                     <div className="classifies">
                       <label>
                         Classification{" "}
-                        <span style={{ color: "red" }}>&#160;&#42;</span>
+                        <span style={{ color: "rgb(236,23,18)" }}>&#160;&#42;</span>
                       </label>
                       <select
                         id="selectBox"
@@ -208,8 +213,9 @@ const CreateForm = ({ tableData, setTableData }) => {
                         required
                       >
                         <option
+                        
                           value=""
-                          style={{ display: "none" }}
+                          style={{ display: "none",color:"rgb(193,197,202)" }}
                           disabled
                           selected
                         >
