@@ -159,7 +159,6 @@ const CreateForm = ({ tableData, setTableData }) => {
                         <option
                           value=""
                           style={{ display: "none" }}
-                          disabled
                           defaultChecked
                         >
                           Select...
