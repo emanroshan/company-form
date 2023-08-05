@@ -1,62 +1,25 @@
 import React, { useState, useEffect } from "react";
 import "./CreateForm.css";
 import { Button, Modal } from "antd";
-import { Height } from "devextreme-react/chart";
-import TextBox from "devextreme-react/text-box";
-import Form, { GroupItem, SimpleItem } from "devextreme-react/form";
-import { gql, useMutation } from "@apollo/client";
-
-const CREATE_COMPANY = gql`
-  mutation createCompany($data: CreateCompanyInput!) {
-    createCompany(data: $data) {
-      id
-      name
-      code
-      classification
-    }
-  }
-`;
-const UPDATE_COMPANY = gql`
-  mutation updateCompany($data: UpdateCompanyInput!) {
-    updateCompany(data: $data) {
-      id
-      name
-      code
-      classification
-    }
-  }
-`;
+import { useMutation } from "@apollo/client";
+import { CREATE_COMPANY, UPDATE_COMPANY, initialFormData } from "./constants";
 
 const CreateForm = ({ tableData, setTableData }) => {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState(undefined);
+  const [formData, setFormData] = useState(initialFormData);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    code: "",
-    description: "",
-    classification: "",
-    address: "",
-    city: "",
-    state: "",
-    country: "",
-  });
-  const [add_Company, {data, loading, error }] = useMutation(CREATE_COMPANY);
-
-  const [update_Company, {data2, loading2, error2 }] = useMutation(UPDATE_COMPANY);
+  const [add_Company, { data, loading, error }] = useMutation(CREATE_COMPANY);
+  const [update_Company, { data2, loading2, error2 }] = useMutation(UPDATE_COMPANY);
 
   const handleFormDataChange = (f, val) => {
     setFormData((prevState) => ({
       ...prevState,
       ...(typeof f === "string" && { [f]: val }),
     }));
-
-    console.log(formData);  
   };
 
-
-  async function myFunction (e) {
-    e.preventDefault();
+  useEffect(() => {
     if (
       formData.classification === "" ||
       formData.name === "" ||
@@ -64,19 +27,17 @@ const CreateForm = ({ tableData, setTableData }) => {
     ) {
       return;
     }
-    console.log('id : ' , id);
-    if(id)
-      await update_Company({ variables: { data: { id, ...formData } } });
+    if (id) update_Company({ variables: { data: { id, ...formData } } });
     else {
       const data = add_Company({ variables: { data: { ...formData } } });
-      data.then(result => { 
+      data.then((result) => {
         console.log(result);
         console.log(result.data?.createCompany?.id);
-        setId(result.data?.createCompany?.id)
-      })
+        setId(result.data?.createCompany?.id);
+      });
     }
-  }
-
+    console.log("formData : ", formData);
+  }, [formData]);
 
   return (
     <>
@@ -90,17 +51,8 @@ const CreateForm = ({ tableData, setTableData }) => {
             className="square-big-button"
             type="primary"
             onClick={() => {
-              setOpen(true)
-              setFormData({
-                name: "",
-                code: "",
-                description: "",
-                classification: "",
-                address: "",
-                city: "",
-                state: "",
-                country: "",
-              }) 
+              setOpen(true);
+              setFormData(initialFormData);
             }}
           >
             Create
@@ -112,7 +64,7 @@ const CreateForm = ({ tableData, setTableData }) => {
         className="form-modal"
         open={open}
         onOk={() => setOpen(false)}
-        onCancel={() => setOpen(false) }
+        onCancel={() => setOpen(false)}
         width={1000}
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
@@ -121,12 +73,9 @@ const CreateForm = ({ tableData, setTableData }) => {
           <h2>Company</h2>
         </div>
 
-         <section>
+        <section>
           <div className="container">
-            <form
-              // onChange={(e) => myFunction(e)}
-              onBlur={(e) => myFunction(e)}
-            >
+            <form>
               <div className="row">
                 <div
                   className="general"
@@ -210,8 +159,7 @@ const CreateForm = ({ tableData, setTableData }) => {
                         <option
                           value=""
                           style={{ display: "none" }}
-                          disabled
-                          selected
+                          defaultChecked
                         >
                           Select...
                         </option>
@@ -288,8 +236,8 @@ const CreateForm = ({ tableData, setTableData }) => {
               </div>
             </form>
           </div>
-        </section> 
-      </Modal> 
+        </section>
+      </Modal>
     </>
   );
 };
