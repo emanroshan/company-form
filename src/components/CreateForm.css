@@ -1,248 +1,246 @@
 .form-modal {
-  height: 500px;
-  margin-right: 0;
-  margin-top: -100px;
-  font-size: 50%;
-  font-family: sans-serif;
-  color: rgb(34,47,89) ;
-}
-.container {
-  min-height: 90vh;
-  margin-right: 10px;
-  margin-top: 5px;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding-left: 15px;
-  padding-top: 10px;
-  min-height: 90vh;
-  margin-right: 10px;
-  margin-top: 5px;
-}
-.general input[type=text]:focus{
-   outline: 1px solid rgb(34,47,89);    
-   background-color: rgb(230,239,254);
+   height: 500px;
+   margin-right: 0;
+   margin-top: -100px;
+   font-size: 50%;
+   font-family: sans-serif;
+   color: rgb(34,47,89) ;
  }
-.general {
-  margin-right: 10px;
-  border-bottom: 1px solid rgb(236,243,254);
-  margin-top: 30px;
-}
-
-.general label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.general input,
-.general select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: 1px solid rgb(215,226,245);
-  border-radius: 1.5px;
-
-  
-}
-label {
-  display: block;
-  -webkit-tap-highlight-color: transparent;
-  text-size-adjust: none;
-  color:rgb(73,89,144);
-  font-weight: 500;
-  font-size: 14px;
-  font-family: "Helvetica Neue", "Segoe UI", helvetica, verdana, sans-serif;
-  line-height: 1.35715;
-  padding: 0px;
-  outline: 0px;
-}
-.namecode {
-  margin-top: 10px;
-  display: inline-flex;
-  justify-content: space-between;
-}
-.name-field label {
-  display: block;
-  margin-bottom: 5px;
-}
-.name-field input {
-  display: block;
-  width: 450px;
-}
-.code-field label {
-  display: block;
-  margin-bottom: 5px;
-  margin-left: 20px;
-}
-.code-field input {
-  display: block;
-  width: 250px;
-  margin-left: 20px;
-}
-.status-container select {
-  width: 760px;
-  background-color: rgb(248,248,248);
-}
-
-.classifies select {
-  width: 200px;
-}
+ .container {
+   min-height: 90vh;
+   margin-right: 10px;
+   margin-top: 5px;
+ }
  
- select:focus {
+ .container {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   box-sizing: border-box;
+   padding-left: 15px;
+   padding-top: 10px;
+   min-height: 90vh;
+   margin-right: 10px;
+   margin-top: 5px;
+ }
+ .general input[type=text]:focus{
+    outline: 1px solid rgb(34,47,89);    
+    background-color: rgb(230,239,254);
+  }
+ .general {
+   margin-right: 10px;
+   border-bottom: 1px solid rgb(236,243,254);
+   margin-top: 30px;
+ }
+ 
+ .general label {
+   display: block;
+   margin-bottom: 5px;
+ }
+ 
+ .general input,
+ .general select {
+   width: 100%;
+   padding: 8px;
+   margin-bottom: 15px;
+   border: 1px solid rgb(215,226,245);
+   border-radius: 1.5px;
+ 
    
-   outline: 1px solid rgb(34,47,89); 
+ }
+ label {
+   display: block;
+   -webkit-tap-highlight-color: transparent;
+   text-size-adjust: none;
+   color:rgb(73,89,144);
+   font-weight: 500;
+   font-size: 14px;
+   font-family: "Helvetica Neue", "Segoe UI", helvetica, verdana, sans-serif;
+   line-height: 1.35715;
+   padding: 0px;
+   outline: 0px;
+ }
+ .namecode {
+   margin-top: 10px;
+   display: inline-flex;
+   justify-content: space-between;
+ }
+ .name-field label {
+   display: block;
+   margin-bottom: 5px;
+ }
+ .name-field input {
+   display: block;
+   width: 450px;
+ }
+ .code-field label {
+   display: block;
+   margin-bottom: 5px;
+   margin-left: 20px;
+ }
+ .code-field input {
+   display: block;
+   width: 250px;
+   margin-left: 20px;
+ }
+ .status-container select {
+   width: 760px;
+   background-color: rgb(248,248,248);
  }
  
-
-.description input {
-  padding-bottom: 100px;
-  width: 97%;
-  background-color: rgb(248,248,248);
-}
-.description input[type=textbox]:focus{
-   outline: 1px solid rgb(34,47,89);    
-   background-color: rgb(230,239,254);
+ .classifies select {
+   width: 200px;
  }
-.side-heading {
-  width: 12%;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 32px;
-  color: rgb(34, 47, 89);
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  margin-top: 4px;
-}
-
-.address {
-  margin-right: 10px;
-  font-weight: 500;
-  color:rgb(73,89,144);
-  font-weight: 500;
-  font-size: 14px;
-  font-family: "Helvetica Neue", "Segoe UI", helvetica, verdana, sans-serif;
-  line-height: 1.35715;
-  padding: 0px;
-  outline: 0px;
-}
-
-/* Add styles for the labels in the "Address" section */
-.address label {
-  display: block;
-  margin-bottom: 5px;
   
-}
-
-/* Add styles for the inputs in the "Address" section */
-.address input {
-  width: 750px;
-  padding: 8px;
-  background-color: rgb(248,248,248);
-}
-.information {
-  margin-top: 10px;
-  display: inline-flex;
-  justify-content: space-between;
-  color:rgb(73,89,144);
-  font-weight: 500;
-  font-size: 14px;
-  font-family: "Helvetica Neue", "Segoe UI", helvetica, verdana, sans-serif;
-  line-height: 1.35715;
-  padding: 0px;
-  outline: 0px;
+  select:focus {
+    
+    outline: 1px solid rgb(34,47,89); 
+  }
   
-}
-
-.info-field label {
-  display: block;
-  margin-bottom: 5px;
-
-}
-.info-field input {
-  display: block;
-  width: 230px;
-  margin-right: 10px;
-  background-color: rgb(248,248,248);
-}
-.header {
-  flex-flow: wrap;
-
-  -webkit-box-pack: justify;
-  height: 70px;
-   border: 1px solid rgb(239,239,239);
-  padding: 3px 2px 2px 2px;
-  box-sizing: border-box;
-  margin-top: 50px;
-  margin-bottom: 20px;
-
-}
-.title {
-  font-size: 18px;
-  font-weight: 400;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  letter-spacing: 1px;
-  display: inline-flex;
-  justify-content: space-between;
-  max-width: 100%;
-  
-}
-.company h1 {
-  display: block;
-  width: 200px;
-  margin-right: 450px;
-  margin-left: 70px;
-  margin-top: 20px;
-  color: rgb(34,47,89);
-  margin-top: 13px;
-}
-button {
-  display: block;
-  margin-left: 470px;
-  margin-top: 22px;
-  width: 100px;
-  height: 250px;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-.square-big-button {
-  background-color: rgb(87,86,251);
-  border: none;
-  border-radius: 2px;
-  color: white;
-  font-weight: 500;
-  padding: 10px 15px 9px;
-  font-size: 18px;
-  height: 32px;
-  line-height: 1;
-  min-width: 72px;
-  width: max-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.square-big-button:hover {
-  background-color: rgb(87,86,251);
-  border: none;
-
-}
-.comp-heading {
-  color: rgb(38,55,99);
-  font-size: 18px;
-  font-weight: 500;
-  border-bottom: 1px solid rgb(236,243,254);
-}
-
-
-
+ 
+ .description input {
+   padding-bottom: 100px;
+   width: 97%;
+   background-color: rgb(248,248,248);
+ }
+ .description input[type=textbox]:focus{
+    outline: 1px solid rgb(34,47,89);    
+    background-color: rgb(230,239,254);
+  }
+ .side-heading {
+   width: 12%;
+   font-size: 20px;
+   font-weight: 600;
+   line-height: 32px;
+   color: rgb(34, 47, 89);
+   text-overflow: ellipsis;
+   overflow: hidden;
+   white-space: nowrap;
+   margin-top: 4px;
+ }
+ 
+ .address {
+   margin-right: 10px;
+   font-weight: 500;
+   color:rgb(73,89,144);
+   font-weight: 500;
+   font-size: 14px;
+   font-family: "Helvetica Neue", "Segoe UI", helvetica, verdana, sans-serif;
+   line-height: 1.35715;
+   padding: 0px;
+   outline: 0px;
+ }
+ 
+ /* Add styles for the labels in the "Address" section */
+ .address label {
+   display: block;
+   margin-bottom: 5px;
+   
+ }
+ 
+ /* Add styles for the inputs in the "Address" section */
+ .address input {
+   width: 750px;
+   padding: 8px;
+   background-color: rgb(248,248,248);
+ }
+ .information {
+   margin-top: 10px;
+   display: inline-flex;
+   justify-content: space-between;
+   color:rgb(73,89,144);
+   font-weight: 500;
+   font-size: 14px;
+   font-family: "Helvetica Neue", "Segoe UI", helvetica, verdana, sans-serif;
+   line-height: 1.35715;
+   padding: 0px;
+   outline: 0px;
+   
+ }
+ 
+ .info-field label {
+   display: block;
+   margin-bottom: 5px;
+ 
+ }
+ .info-field input {
+   display: block;
+   width: 230px;
+   margin-right: 10px;
+   background-color: rgb(248,248,248);
+ }
+ .header {
+   flex-flow: wrap;
+ 
+   -webkit-box-pack: justify;
+   height: 70px;
+    border: 1px solid rgb(239,239,239);
+   padding: 3px 2px 2px 2px;
+   box-sizing: border-box;
+   margin-top: 50px;
+   margin-bottom: 20px;
+ 
+ }
+ .title {
+   font-size: 18px;
+   font-weight: 400;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   letter-spacing: 1px;
+   display: inline-flex;
+   justify-content: space-between;
+   max-width: 100%;
+   
+ }
+ .company h1 {
+   display: block;
+   width: 200px;
+   margin-right: 450px;
+   margin-left: 70px;
+   margin-top: 20px;
+   color: rgb(34,47,89);
+   margin-top: 13px;
+ }
+ button {
+   display: block;
+   margin-left: 470px;
+   margin-top: 22px;
+   width: 100px;
+   height: 250px;
+   font-family: inherit;
+   font-size: inherit;
+   line-height: inherit;
+ }
+ 
+ .square-big-button {
+   background-color: rgb(87,86,251);
+   border: none;
+   border-radius: 2px;
+   color: white;
+   font-weight: 500;
+   padding: 10px 15px 9px;
+   font-size: 18px;
+   height: 32px;
+   line-height: 1;
+   min-width: 72px;
+   width: max-content;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   position: relative;
+   cursor: pointer;
+   transition: 0.2s;
+ }
+ .square-big-button:hover {
+   background-color: rgb(87,86,251);
+   border: none;
+ 
+ }
+ .comp-heading {
+   color: rgb(38,55,99);
+   font-size: 18px;
+   font-weight: 500;
+   border-bottom: 1px solid rgb(236,243,254);
+ }
+ 

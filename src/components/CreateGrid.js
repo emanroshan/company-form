@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./CreateGrid.css";
 import { TreeList, Paging, Pager, Scrolling } from "devextreme-react/tree-list";
-import FilterMenu from "./FilterMenu";
 import { useQuery, gql } from "@apollo/client";
 import DataGrid, {
   Column,
@@ -18,6 +17,7 @@ const CreateGrid = ({ todos }) => {
       pageSize: 200,
     },
   };
+  const defaultSortOrder = [{ dataField: "id", sortOrder: "desc" }];
   const GET_COMPANIES = gql`
     query getAllCom($pageInfo: PageInfoInput) {
       companies(pageInfo: $pageInfo) {
@@ -34,6 +34,8 @@ const CreateGrid = ({ todos }) => {
       }
     }
   `;
+  
+
   const { data, loading, error } = useQuery(GET_COMPANIES, {
     variables: {
       pageInfo: {
@@ -61,33 +63,43 @@ const CreateGrid = ({ todos }) => {
   ];
   const gridData = data?.companies?.data;
 
- // const allowedPageSizes = [5, 10, 20, 50, 100, 200];
+  const allowedPageSizes = [5, 10, 20, 50, 100, 200];
   console.log(gridData);
   return (
     <>
-      <div className="search-panel">
-        <DataGrid>
-          <SearchPanel
-            visible={true}
-            highlightCaseSensitive={false}
-            width={240}
-            placeholder="Search..."
-            className={"grid-search"}
-          />
-
-          <Search enabled={true} width={200} />
-        </DataGrid>
-      </div>
-
-      <div className="grid-pager">
+      
+    
+      <div className="grid-pager-container">
+      
         <DataGrid
           dataSource={gridData}
           keyExpr={"id"}
           showBorders={true}
           allowColumnReordering={true}
         >
+           <SearchPanel
+            visible={true}
+            highlightCaseSensitive={false}
+            width={240}
+            placeholder="Search..."
+            className={"grid-search"}
+            defaultSortOrder={defaultSortOrder}
+          />
+
+          <Search enabled={true} width={200} />
+          <Scrolling rowRenderingMode='standard'></Scrolling>
           
+          
+          <Paging defaultPageSize={10} />
+          <Pager
+            visible={true}
+            allowedPageSizes={allowedPageSizes}
+            displayMode={"compact"}
+            showPageSizeSelector={true}
          
+            showNavigationButtons={true} />
+        
+          
           {columns.map((column) => (
             <Column
               key={column.dataField}
@@ -97,7 +109,9 @@ const CreateGrid = ({ todos }) => {
               allowHeaderFiltering={column.allowHeaderFiltering}
             />
           ))}
+          
         </DataGrid>
+     
       </div>
     </>
   );
