@@ -1,20 +1,18 @@
-import React, { useState } from "react";
-import "./CreateGrid.css";
-import { TreeList, Column, Paging, Pager,Scrolling, HeaderFilter, Search, SearchPanel } from 'devextreme-react/tree-list';
+import React, { useEffect, useState } from "react";
+import "devextreme/dist/css/dx.light.css";
+import {
+  Column,
+  TreeList,
+  SearchPanel,
+} from "devextreme-react/tree-list";
 import { useQuery } from "@apollo/client";
-import { DataGrid } from "devextreme-react";
-import { Pagination } from "antd";
 import { GET_COMPANIES } from "./constants";
+import Selector from "./Filters/Selector";
+import { columns, disabledColumns, filteredColumnsValues } from "./constants";
+import HeaderFilters from "./Filters/HeaderFilters";
 
-const CreateGrid = ({ todos }) => {
-  const PAGE_INFO = {
-    pageInfo: {
-      pageNo: 1,
-      pageSize: 200,
-    },
-  };
-
-  const { data, loading, error } =  useQuery(GET_COMPANIES, {
+const CreateGrid = () => {
+  const { data, loading, error } = useQuery(GET_COMPANIES, {
     variables: {
       pageInfo: {
         pageNo: 1,
@@ -23,51 +21,66 @@ const CreateGrid = ({ todos }) => {
     },
   });
 
-  const columns = [
-    {
-      dataField: "name",
-      caption: "Name",
-      width: 200,
-      allowHeaderFiltering: true,
-    },
-    { dataField: "code", caption: "Code", width: 200 },
-    { dataField: "status", caption: "Status", width: 200 },
-    { dataField: "description", caption: "Description", width: 200 },
-    { dataField: "classification", caption: "Classification", width: 200 },
-    { dataField: "address", caption: "Address", width: 200 },
-    { dataField: "city", caption: "City", width: 200 },
-    { dataField: "state", caption: "State", width: 200 },
-    { dataField: "country", caption: "Country", width: 200 },
-  ];
-  const gridData = data?.companies?.data;
+  const [gridData, setGridData] = useState(data?.companies?.data);
+  const [filterValues, setFilterValues] = useState({});
+  const [filterColumns, setFilterColumns] = useState(disabledColumns);
+  const [filterColWithValues, setFilterColWithValues] = useState(filteredColumnsValues)
 
- // const allowedPageSizes = [5, 10, 20, 50, 100, 200];
-  console.log(gridData);
+  useEffect(() => {
+    setGridData(data?.companies?.data);
+  }, [data]);
+
+  useEffect(() => {
+    if (data) {
+      const filteredData = data?.companies?.data?.filter((item) => {
+        return filterColumns.every((column) => {
+          const filterValuesForColumn = filterColWithValues[column.dataField];
+          if (filterValuesForColumn && filterValuesForColumn.length > 0) {
+            return filterValuesForColumn.includes(item[column.dataField]);
+          }
+          return true;
+        });
+      });
+      setGridData(filteredData);
+    }
+  }, [filterColWithValues, data]);
+  
+  const handleFilterChange = (column, value, checked) => {
+    if(checked){
+      setFilterColWithValues((prevFilterColWithValues) => ({
+        ...prevFilterColWithValues,
+        [column]: [...(prevFilterColWithValues[column] || []), value],
+      }));
+    }
+    else{
+      setFilterColWithValues((prevFilterColWithValues) => ({
+        ...prevFilterColWithValues,
+        [column]: prevFilterColWithValues[column].filter((val) => val !== value),
+      }));
+    }
+  };
+  
+
   return (
     <>
       <div className="search-panel">
-        <DataGrid>
-          <SearchPanel
-            visible={true}
-            highlightCaseSensitive={false}
-            width={240}
-            placeholder="Search..."
-            className={"grid-search"}
-          />
-
-          <Search enabled={true} width={200} />
-        </DataGrid>
+        <Selector columns={columns} setFilterColumns={setFilterColumns} />
       </div>
+      <HeaderFilters
+        columns={filterColumns}
+        filterValues={filterValues}
+        handleFilterChange={handleFilterChange}
+        dataSource={data?.companies?.data ? data?.companies?.data : gridData}
+      />
 
       <div className="grid-pager">
-        <DataGrid
+        <TreeList
           dataSource={gridData}
           keyExpr={"id"}
           showBorders={true}
           allowColumnReordering={true}
         >
-          
-         
+          <SearchPanel visible={true} />
           {columns.map((column) => (
             <Column
               key={column.dataField}
@@ -77,7 +90,7 @@ const CreateGrid = ({ todos }) => {
               allowHeaderFiltering={column.allowHeaderFiltering}
             />
           ))}
-        </DataGrid>
+        </TreeList>
       </div>
     </>
   );
