@@ -4,8 +4,8 @@ import { Button, Modal } from "antd";
 import { useMutation } from "@apollo/client";
 import { CREATE_COMPANY, UPDATE_COMPANY, initialFormData } from "./constants";
 
-const CreateForm = ({ tableData, setTableData}) => {
-  const [open, setOpen] = useState(false);
+const CreateForm = ({ flag, setFlag, open, setOpen }) => {
+
   const [id, setId] = useState(undefined);
   const [formData, setFormData] = useState(initialFormData);
 
@@ -27,17 +27,22 @@ const CreateForm = ({ tableData, setTableData}) => {
     ) {
       return;
     }
-    if (id) update_Company({ variables: { data: { id, ...formData } } });
+    if (id){
+      update_Company({ variables: { data: { id, ...formData } } });
+    }
     else {
       const data = add_Company({ variables: { data: { ...formData } } });
       data.then((result) => {
-        console.log(result);
-        console.log(result.data?.createCompany?.id);
         setId(result.data?.createCompany?.id);
       });
     }
+    setFlag(!flag);
     console.log("formData : ", formData);
   }, [formData]);
+
+  const handleClick = () => {
+     setOpen(true)
+  }
 
   return (
     <>
@@ -50,10 +55,7 @@ const CreateForm = ({ tableData, setTableData}) => {
           <Button
             className="square-big-button"
             type="primary"
-            onClick={() => {
-              setOpen(true);
-              setFormData(initialFormData);
-            }}
+            onClick={() => handleClick()}
           >
             Create
           </Button>
@@ -64,6 +66,7 @@ const CreateForm = ({ tableData, setTableData}) => {
       <Modal
         className="form-modal"
         open={open}
+        destroyOnClose
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         width={1000}
@@ -124,7 +127,7 @@ const CreateForm = ({ tableData, setTableData}) => {
                     <br />
                     <div className="status-container">
                       <label>Status</label>
-                      <select id="selectBox">
+                      <select id="selectBox" disabled={!id}>
                         <option defaultChecked>Draft</option>
                         <option value="active">Active</option>
                         <option value="inactive">In-Active</option>
@@ -141,7 +144,9 @@ const CreateForm = ({ tableData, setTableData}) => {
                         name="description"
                         onBlur={(e) =>
                           handleFormDataChange("description", e.target.value)
+                         
                         }
+                        disabled={!id}
                       />
                     </div>
                     <br />
@@ -155,6 +160,7 @@ const CreateForm = ({ tableData, setTableData}) => {
                         onBlur={(e) =>
                           handleFormDataChange("classification", e.target.value)
                         }
+
                         required
                       >
                         <option
@@ -188,6 +194,7 @@ const CreateForm = ({ tableData, setTableData}) => {
                         onBlur={(e) =>
                           handleFormDataChange("address", e.target.value)
                         }
+                        disabled={!id}
                       />
                     </div>
 
@@ -203,6 +210,7 @@ const CreateForm = ({ tableData, setTableData}) => {
                           onBlur={(e) =>
                             handleFormDataChange("city", e.target.value)
                           }
+                          disabled={!id}
                         />
                       </div>
                       <div className="info-field">
@@ -216,6 +224,7 @@ const CreateForm = ({ tableData, setTableData}) => {
                           onBlur={(e) =>
                             handleFormDataChange("state", e.target.value)
                           }
+                          disabled={!id}
                         />
                       </div>
                       <div className="info-field">
@@ -229,6 +238,7 @@ const CreateForm = ({ tableData, setTableData}) => {
                           onBlur={(e) =>
                             handleFormDataChange("country", e.target.value)
                           }
+                           disabled={!id}
                         />
                       </div>
                     </div>

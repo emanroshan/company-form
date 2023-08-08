@@ -1,4 +1,4 @@
-import "./App.css";
+// import "./App.css";
 
 import CreateForm from "./components/CreateForm";
 import React, { useEffect, useState } from "react";
@@ -19,7 +19,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token =
-    "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJJeTFVRzA3WlpMZnFXSkx3VGdZUURnczBWSS1VSXNGbFk0RzBNRzktM0w0In0.eyJleHAiOjE2OTEzOTc1NDQsImlhdCI6MTY5MTM4NjIzMSwiYXV0aF90aW1lIjoxNjkxMzExMTQ0LCJqdGkiOiIzMTQ3N2YwNi0zYmFiLTQ5ZTEtYWE3ZC04ZDQ5NjMzMGMxOTAiLCJpc3MiOiJodHRwczovL3Nzby5kZXYuc2Vuc3lzaW8uY29tL2F1dGgvcmVhbG1zL2F0aGVucyIsImF1ZCI6ImNtbXMiLCJzdWIiOiI1ZmM0Y2VlNi0xOGExLTRmZTctYTk2NC0yM2QyZjNjOWU1Y2YiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjbW1zIiwibm9uY2UiOiJqSmNfeUcwUEQ2Q21sWFBSR2Npb0VSeGpGSGE1eFpJczRCbFVyTWFNYm00Iiwic2Vzc2lvbl9zdGF0ZSI6ImVmNmEwNmNhLTY3YjUtNGU4YS05ODY0LTBiYjRkMjE5ZTgzNSIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwgY21tcyIsInNpZCI6ImVmNmEwNmNhLTY3YjUtNGU4YS05ODY0LTBiYjRkMjE5ZTgzNSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU29jcmF0ZXMgUGhsaW9zIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic29jcmF0ZXMiLCJnaXZlbl9uYW1lIjoiU29jcmF0ZXMiLCJmYW1pbHlfbmFtZSI6IlBobGlvcyIsInRlbmFudCI6eyJ0aWVyIjoiRnJlZSIsImlkIjoiYXRoZW5zIn0sImVtYWlsIjoic29jcmF0ZXNAZ3JyLmxhIn0.gwVwPw9QbWFRvTM8mhUa3GUwQiVMCzdxbaK8yLw-nmxqOMBzVgdQetRSPwY0tDFff59OaZbH-L9wdsec8JO7VysuYnUfVrXaSOI7NR2a1RLbCnmrCtpTCUtoQDCXLblayAnaOOKIwpvd9kJSjf7GJ-yLZbjuLstvs6NR04IJG_JUH1eLjNjPwUz5Lux215GrEaGU-QKFiqpymSMDS6a9GF6Zoq-O225OYOD8pEwvCx_s8yjW37TaW7P-UDG8DaZ7b56f22CcpETNmOwjZ8wWAup1KD-jiSYkbyHWDiU7ztOUzB-dYerO6uHoZKnDvNLoG8AQwOGURicB6B6MXtxpyQ";
+    "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJJeTFVRzA3WlpMZnFXSkx3VGdZUURnczBWSS1VSXNGbFk0RzBNRzktM0w0In0.eyJleHAiOjE2OTE1MDYzMTksImlhdCI6MTY5MTQ4NDcxOSwiYXV0aF90aW1lIjoxNjkxNDg0NzE1LCJqdGkiOiJkMDdjNWYyNy0wZDRjLTRmZGEtODcwOS1kMjYyY2U1ZmU0M2UiLCJpc3MiOiJodHRwczovL3Nzby5kZXYuc2Vuc3lzaW8uY29tL2F1dGgvcmVhbG1zL2F0aGVucyIsImF1ZCI6ImNtbXMiLCJzdWIiOiI1ZmM0Y2VlNi0xOGExLTRmZTctYTk2NC0yM2QyZjNjOWU1Y2YiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjbW1zIiwibm9uY2UiOiJES1RGY0I1SkhHNmRQQnlrY3h0cEQ1djZkU0dlSzEyNkdrRWszejgxcU5FIiwic2Vzc2lvbl9zdGF0ZSI6IjBmMGIwMzQ0LTUyM2EtNDQxNy1iY2YyLTUxZjc4NDNkNzViNCIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwgY21tcyIsInNpZCI6IjBmMGIwMzQ0LTUyM2EtNDQxNy1iY2YyLTUxZjc4NDNkNzViNCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU29jcmF0ZXMgUGhsaW9zIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic29jcmF0ZXMiLCJnaXZlbl9uYW1lIjoiU29jcmF0ZXMiLCJmYW1pbHlfbmFtZSI6IlBobGlvcyIsInRlbmFudCI6eyJ0aWVyIjoiRnJlZSIsImlkIjoiYXRoZW5zIn0sImVtYWlsIjoic29jcmF0ZXNAZ3JyLmxhIn0.HHG88DSIUkP6IFeZ5ueHuIz7IHIaCrvsHrjuiC02sDDgmg6eduPHTUptbvOVnXmILzBnXRqHWhdAGOIwn57AneO7fXuoVBWpXd_Mnh5W00sxySwCb0vT69SwB8kIUuBU3ySCLVCPprnAF9tgckJQo7me99THLgJeRBVXykvA40IRZiMa8xpDacVxP4R-XN_OtokSK1o_nLfd8W8z09Hav02Xb8x13KX4jx72xu9C8QmYekFf9VNedMObYJrx9L1FQioH1xmqJd4AC5qg6C9R7ZVwM0VFRmgANpAcnC8hf175dkaAAW2-R0twnmx1mww3DpAlnpiC9lg8Z3Gq9PXyBw";
   return {
     headers: {
       ...headers,
@@ -38,21 +38,13 @@ const client = new ApolloClient({
 });
 
 const App = () => {
-  const [tableData, setTableData] = useState([]);
-  const flag = false;
-
-  useEffect(() => {
-    console.log("Table Data:", tableData);
-  }, [flag]);
-
-  const updateGridData = (formData) => {
-    setTableData((prevData) => [...prevData, formData]);
-  };
+  const [flag, setFlag] = useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <>
       <ApolloProvider client={client}>
-        <CreateForm flag={flag} />
-        <CreateGrid tableData={tableData} />
+        <CreateForm flag={flag} setFlag={setFlag} open={open} setOpen={setOpen}/>
+        <CreateGrid flag={flag} setOpen={setOpen} open={open} />
       </ApolloProvider>
     </>
   );

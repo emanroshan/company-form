@@ -1,105 +1,124 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CreateGrid.css";
-import { TreeList, Paging, Pager, Scrolling } from "devextreme-react/tree-list";
-import { useQuery, gql } from "@apollo/client";
-import DataGrid, {
+import { useQuery } from "@apollo/client";
+import "devextreme/dist/css/dx.light.css";
+import {
   Column,
-  Search,
+  TreeList,
   SearchPanel,
-  FilterRow,
-} from "devextreme-react/data-grid";
-import { Pagination } from "antd";
+  Paging,
+  Pager,
+  Scrolling,
+  Editing,
+  Lookup,
+} from "devextreme-react/tree-list";
+import { GET_COMPANIES, statuses } from "./constants";
+import Selector from "./Filters/Selector";
+import { columns, disabledColumns, filteredColumnsValues } from "./constants";
+import HeaderFilters from "./Filters/HeaderFilters";
 
-const CreateGrid = ({ todos }) => {
-  const PAGE_INFO = {
-    pageInfo: {
-      pageNo: 1,
-      pageSize: 200,
-    },
-  };
-  const defaultSortOrder = [{ dataField: "id", sortOrder: "desc" }];
-  const GET_COMPANIES = gql`
-    query getAllCom($pageInfo: PageInfoInput) {
-      companies(pageInfo: $pageInfo) {
-        data {
-          id
-          name
-          description
-          code
-          classification
-          country
-          state
-          address
-        }
-      }
-    }
-  `;
-  
+const allowedPageSizes = [5, 10, 20, 50, 100, 200];
 
+const CreateGrid = ({ flag, setOpen, open }) => {
+  console.log(flag);
   const { data, loading, error } = useQuery(GET_COMPANIES, {
     variables: {
       pageInfo: {
         pageNo: 1,
         pageSize: 200,
+        orderBy: {
+          sortOrder: "DESC",
+          sortKey: "id",
+        },
       },
     },
   });
 
-  const columns = [
-    {
-      dataField: "name",
-      caption: "Name",
-      width: 200,
-      allowHeaderFiltering: true,
-    },
-    { dataField: "code", caption: "Code", width: 200 },
-    { dataField: "status", caption: "Status", width: 200 },
-    { dataField: "description", caption: "Description", width: 200 },
-    { dataField: "classification", caption: "Classification", width: 200 },
-    { dataField: "address", caption: "Address", width: 200 },
-    { dataField: "city", caption: "City", width: 200 },
-    { dataField: "state", caption: "State", width: 200 },
-    { dataField: "country", caption: "Country", width: 200 },
-  ];
-  const gridData = data?.companies?.data;
+  const [gridData, setGridData] = useState(data?.companies?.data);
+  const [filterValues, setFilterValues] = useState({});
+  const [filterColumns, setFilterColumns] = useState(disabledColumns);
+  const [filterColWithValues, setFilterColWithValues] = useState(
+    filteredColumnsValues
+  );
 
-  const allowedPageSizes = [5, 10, 20, 50, 100, 200];
-  console.log(gridData);
+  useEffect(() => {
+    setGridData(data?.companies?.data);
+  }, [data]);
+
+  useEffect(() => {
+    if (data) {
+      const filteredData = data?.companies?.data?.filter((item) => {
+        return filterColumns.every((column) => {
+          const filterValuesForColumn = filterColWithValues[column.dataField];
+          if (filterValuesForColumn && filterValuesForColumn.length > 0) {
+            return filterValuesForColumn.includes(item[column.dataField]);
+          }
+          return true;
+        });
+      });
+      setGridData(filteredData);
+    }
+  }, [filterColWithValues, data]);
+
+  const handleFilterChange = (column, value, checked) => {
+    if (checked) {
+      setFilterColWithValues((prevFilterColWithValues) => ({
+        ...prevFilterColWithValues,
+        [column]: [...(prevFilterColWithValues[column] || []), value],
+      }));
+    } else {
+      setFilterColWithValues((prevFilterColWithValues) => ({
+        ...prevFilterColWithValues,
+        [column]: prevFilterColWithValues[column].filter(
+          (val) => val !== value
+        ),
+      }));
+    }
+  };
+
+
+
   return (
     <>
-      
-    
-      <div className="grid-pager-container">
-      
-        <DataGrid
+      <div className="search-headers">
+        <div className="search-panel">
+          <Selector columns={columns} setFilterColumns={setFilterColumns} />
+        </div>
+        <div className="header-panel">
+          <HeaderFilters
+            columns={filterColumns}
+            filterValues={filterValues}
+            handleFilterChange={handleFilterChange}
+            dataSource={
+              data?.companies?.data ? data?.companies?.data : gridData
+            }
+          />
+        </div>
+      </div>
+
+      <div className="grid-pager">
+        <TreeList
           dataSource={gridData}
-          keyExpr={"id"}
+          keyExpr="id"
           showBorders={true}
           allowColumnReordering={true}
+          columnChooser={true}
         >
-           <SearchPanel
-            visible={true}
-            highlightCaseSensitive={false}
-            width={240}
-            placeholder="Search..."
-            className={"grid-search"}
-            defaultSortOrder={defaultSortOrder}
+          <Editing mode="cell" allowUpdating={true} allowAdding />
+          <Scrolling mode="standard" />
+          <Paging enabled defaultPageSize={10} />
+
+          <Pager
+            showPageSizeSelector
+            allowedPageSizes={allowedPageSizes}
+            showNavigationButtons
+            showInfo
+            infoText="Rows"
+            displayMode="compact"
+            visible
           />
 
-          <Search enabled={true} width={200} />
-          <Scrolling rowRenderingMode='standard'></Scrolling>
-          
-          
-          <Paging defaultPageSize={10} />
-          <Pager
-            visible={true}
-            allowedPageSizes={allowedPageSizes}
-            displayMode={"compact"}
-            showPageSizeSelector={true}
-         
-            showNavigationButtons={true} />
-        
-          
+          <SearchPanel visible={true} />
           {columns.map((column) => (
             <Column
               key={column.dataField}
@@ -107,11 +126,12 @@ const CreateGrid = ({ todos }) => {
               caption={column.caption}
               width={column.width}
               allowHeaderFiltering={column.allowHeaderFiltering}
+              allowEditing={column.allowEditing ?? false}
+              cellRender={column.cellRender}
             />
           ))}
-          
-        </DataGrid>
-     
+          <Lookup dataSource={statuses} displayExpr="name" valueExpr="id" />
+        </TreeList>
       </div>
     </>
   );
