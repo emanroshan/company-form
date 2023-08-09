@@ -7,15 +7,15 @@
 .search-panel
 {
   width: 120px;
-  padding-left: 300px;
   display: block;
+  margin-bottom: 50px;
 
 }
 
 
 .header-panel
 {
-  padding-left: 10px;
+  padding-left: 20px;
   display: block;
   
 }

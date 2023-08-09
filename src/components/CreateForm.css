@@ -137,8 +137,7 @@
    margin-bottom: 5px;
    
  }
- 
- /* Add styles for the inputs in the "Address" section */
+
  .address input {
    width: 750px;
    padding: 8px;
@@ -243,4 +242,31 @@
    font-weight: 500;
    border-bottom: 1px solid rgb(236,243,254);
  }
+ .unique-code
+ {
+  width: 295px;
+    position: relative;
+ }
+ .button-code
+ {
+ 
+    position: absolute;
+    top: 0;
+    border-radius: 2px;
+    box-sizing: border-box;
+    right: 0px;
+    z-index: 2;
+    border: 1px solid white;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    background-color: white;
+    transform: translateX(2px);
+    background-image: url("https://icon-library.com/images/update-icon-png/update-icon-png-14.jpg");
+    background-size: cover; 
+   background-position: center;
+    margin-top:1px;
+    margin-right: 12px;
+   
+  }
  
