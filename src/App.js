@@ -1,9 +1,11 @@
 import "./App.css";
-
+import React, { useState, useContext,createContext } from "react";
 import CreateForm from "./components/CreateForm";
-import React, { useEffect, useState } from "react";
-import DataGrid, { Column } from "devextreme-react/data-grid";
 import CreateGrid from "./components/CreateGrid";
+
+import ReactDOM from "react-dom/client";
+
+
 import {
   ApolloClient,
   InMemoryCache,
@@ -19,7 +21,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token =
-    "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJJeTFVRzA3WlpMZnFXSkx3VGdZUURnczBWSS1VSXNGbFk0RzBNRzktM0w0In0.eyJleHAiOjE2OTEyODAyNDYsImlhdCI6MTY5MTI1ODY0NiwiYXV0aF90aW1lIjoxNjkxMjI5NDc3LCJqdGkiOiIxZDcxZWE0Ny03ZmU2LTQxMzktYjkwYS00MmJjMjA0ZDdlNzYiLCJpc3MiOiJodHRwczovL3Nzby5kZXYuc2Vuc3lzaW8uY29tL2F1dGgvcmVhbG1zL2F0aGVucyIsImF1ZCI6ImNtbXMiLCJzdWIiOiI1ZmM0Y2VlNi0xOGExLTRmZTctYTk2NC0yM2QyZjNjOWU1Y2YiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjbW1zIiwibm9uY2UiOiJjdXd3QTN6WEEwcm55OFRWaktzTTJ0RFY3bUIyVW1RTW9mOFUxbmplVzVBIiwic2Vzc2lvbl9zdGF0ZSI6ImNjMzhjMjVhLThmODktNDIxOS1iZDMzLWJkYzE3M2I3M2Q3MCIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwgY21tcyIsInNpZCI6ImNjMzhjMjVhLThmODktNDIxOS1iZDMzLWJkYzE3M2I3M2Q3MCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU29jcmF0ZXMgUGhsaW9zIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic29jcmF0ZXMiLCJnaXZlbl9uYW1lIjoiU29jcmF0ZXMiLCJmYW1pbHlfbmFtZSI6IlBobGlvcyIsInRlbmFudCI6eyJ0aWVyIjoiRnJlZSIsImlkIjoiYXRoZW5zIn0sImVtYWlsIjoic29jcmF0ZXNAZ3JyLmxhIn0.PwXdP6V7q3dmiECcgXOdKQxntEpu2IKS8fufJ_wNsnJUCAQ6lBfl7AUmz5FyId97aptrDTnNEcYnC4mjESWUs1ZySmJrkLKZg72E-XMjIkrQSyLynJoQKpYwDVGsiuclisWNRRmnjrl8WB1AYvzbVEx3_b-RGkDeCClrSvm3iQu-w7vuQxuRnnpdegCQO_b8btmkOSHB5W4MwxXyeazjHODO-KBkJ6Dw7oBh1dAX7qchzIO56KrSzOcbnyCcR4gPjywTEU7DaB_9iEa34y9ZliPhkbJtUBSPrJvd4inNwEI9tZnwErCy0dBgWt0F6P1f6Wohyt-RGhh1Yrbk_nvJbQ";
+    "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJJeTFVRzA3WlpMZnFXSkx3VGdZUURnczBWSS1VSXNGbFk0RzBNRzktM0w0In0.eyJleHAiOjE2OTE2MTE1MTUsImlhdCI6MTY5MTU4OTkxNSwiYXV0aF90aW1lIjoxNjkxNTcxNTE4LCJqdGkiOiIwY2Q2NjcwMS03YzU4LTQ5NzktYjRlMS1lZThhZmViMDk5NTgiLCJpc3MiOiJodHRwczovL3Nzby5kZXYuc2Vuc3lzaW8uY29tL2F1dGgvcmVhbG1zL2F0aGVucyIsImF1ZCI6ImNtbXMiLCJzdWIiOiI1ZmM0Y2VlNi0xOGExLTRmZTctYTk2NC0yM2QyZjNjOWU1Y2YiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjbW1zIiwibm9uY2UiOiIwdU1qT2o2RVhucWoybEJzd1RNRG03NWRwb2xFMHJWTFJZenZ3bVd3U21ZIiwic2Vzc2lvbl9zdGF0ZSI6ImU2ZWZmZjEzLTdkOTAtNDlkNC04NDlhLWMwZDc5MjI4ZDZlMCIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwgY21tcyIsInNpZCI6ImU2ZWZmZjEzLTdkOTAtNDlkNC04NDlhLWMwZDc5MjI4ZDZlMCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU29jcmF0ZXMgUGhsaW9zIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic29jcmF0ZXMiLCJnaXZlbl9uYW1lIjoiU29jcmF0ZXMiLCJmYW1pbHlfbmFtZSI6IlBobGlvcyIsInRlbmFudCI6eyJ0aWVyIjoiRnJlZSIsImlkIjoiYXRoZW5zIn0sImVtYWlsIjoic29jcmF0ZXNAZ3JyLmxhIn0.joKZrIj38DHkRZJZoRRohx_Ie1qTg-BQmfL4G_XdHzDsFdoOpy1ZY3GQe4dgS_P0mKxLtpBZhrB3xwIu2oQBBLFwgBU6I2iWfhz74BJfgIYe3eQzd0eJfvHRhO7Zt-Bum90q4O_bmsGfV0N7ICNSAKHeaDEODbDp-Ftk7p9m5ofTk7CDPpNgWBqVMo7LzJ1iyiB07b2UnAbXjJs4UvQs35mCDkHFewWc9WXSGdMPm-eTcyCXNcK51_qokZpbF3LiTpL_F0Hvpb9xD2XjfUYHPJLJw7lWILVFxmuHgj2IUxnvlf4Q4R5Lz37Atck9g0S0ximpml5bQfiDnn7voU-XFw";
   return {
     headers: {
       ...headers,
@@ -37,22 +39,19 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+export const EditDataContext = React.createContext(null);
+
 const App = () => {
-  const [tableData, setTableData] = useState([]);
-  const flag = false;
-
-  useEffect(() => {
-    console.log("Table Data:", tableData);
-  }, [flag]);
-
-  const updateGridData = (formData) => {
-    setTableData((prevData) => [...prevData, formData]);
-  };
+  const [flag, setFlag] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [editFormData, setEditFormData] = useState()
   return (
     <>
       <ApolloProvider client={client}>
-        <CreateForm flag={flag} />
-        <CreateGrid tableData={tableData} />
+        <EditDataContext.Provider value={{editFormData, setEditFormData, open, setOpen}}>
+        <CreateForm/>
+        <CreateGrid/>
+        </EditDataContext.Provider>
       </ApolloProvider>
     </>
   );

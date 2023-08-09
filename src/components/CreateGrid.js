@@ -1,22 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import {EditDataContext} from "../App.js";
+import "./CreateGrid.css";
+import { useQuery } from "@apollo/client";
 import "devextreme/dist/css/dx.light.css";
 import {
   Column,
   TreeList,
   SearchPanel,
+  Paging,
+  Pager,
+  Scrolling,
+  Editing,
+  Lookup,
+  
 } from "devextreme-react/tree-list";
-import { useQuery } from "@apollo/client";
-import { GET_COMPANIES } from "./constants";
+import { GET_COMPANIES,statuses } from "./constants";
 import Selector from "./Filters/Selector";
 import { columns, disabledColumns, filteredColumnsValues } from "./constants";
 import HeaderFilters from "./Filters/HeaderFilters";
 
+const allowedPageSizes = [5, 10, 20, 50, 100, 200];
+
 const CreateGrid = () => {
+  const {open, setOpen } = useContext(EditDataContext);
+
   const { data, loading, error } = useQuery(GET_COMPANIES, {
     variables: {
       pageInfo: {
         pageNo: 1,
         pageSize: 200,
+        orderBy: {
+          sortOrder: "DESC",
+          sortKey: "id"
+        }
       },
     },
   });
@@ -60,26 +76,59 @@ const CreateGrid = () => {
     }
   };
   
+  function handleEditData () {
+    setOpen(!open)
+  };
 
   return (
     <>
-      <div className="search-panel">
-        <Selector columns={columns} setFilterColumns={setFilterColumns} />
+    <div className="search-headers">
+    <div className="search-panel">
+        <Selector columns={columns} setFilterColumns={setFilterColumns}  />
       </div>
+      <div className="header-panel">
       <HeaderFilters
         columns={filterColumns}
         filterValues={filterValues}
+      
         handleFilterChange={handleFilterChange}
         dataSource={data?.companies?.data ? data?.companies?.data : gridData}
       />
+      </div>  
+    </div>
+      
 
       <div className="grid-pager">
         <TreeList
           dataSource={gridData}
-          keyExpr={"id"}
+          keyExpr="id"
           showBorders={true}
           allowColumnReordering={true}
+          columnChooser={true}
         >
+           <Editing
+            mode="cell"
+            allowUpdating={true}
+            allowAdding
+          />
+           <Scrolling
+          mode="standard" 
+         />
+        <Paging
+          enabled
+          defaultPageSize={10}
+         />
+       
+        <Pager
+          showPageSizeSelector
+          allowedPageSizes={allowedPageSizes}
+          showNavigationButtons
+          showInfo          
+          infoText="Rows"
+          displayMode="compact"
+          visible
+          />
+
           <SearchPanel visible={true} />
           {columns.map((column) => (
             <Column
@@ -88,8 +137,15 @@ const CreateGrid = () => {
               caption={column.caption}
               width={column.width}
               allowHeaderFiltering={column.allowHeaderFiltering}
+              allowEditing={column.allowEditing ?? false}
+              cellRender={column.cellRender}
             />
           ))}
+           <Lookup
+              dataSource={statuses}
+              displayExpr="name"
+              valueExpr="id"
+            />
         </TreeList>
       </div>
     </>

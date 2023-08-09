@@ -1,16 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { EditDataContext } from "../App.js";
 import "./CreateForm.css";
 import { Button, Modal } from "antd";
-import { useMutation } from "@apollo/client";
-import { CREATE_COMPANY, UPDATE_COMPANY, initialFormData } from "./constants";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  CREATE_COMPANY,
+  UPDATE_COMPANY,
+  initialFormData,
+  GET_UNIQUECODE,
+} from "./constants";
+import {useCode} from "../hooks/useCode.js" 
 
-const CreateForm = ({ tableData, setTableData}) => {
-  const [open, setOpen] = useState(false);
-  const [id, setId] = useState(undefined);
+const CreateForm = () => {
+  const { editFormData, open, setOpen } = useContext(EditDataContext);
+
   const [formData, setFormData] = useState(initialFormData);
+  const [sendCall, setSendCall] = useState(false);
 
   const [add_Company, { data, loading, error }] = useMutation(CREATE_COMPANY);
-  const [update_Company, { data2, loading2, error2 }] = useMutation(UPDATE_COMPANY);
+  const [update_Company, { data2, loading2, error2 }] =
+    useMutation(UPDATE_COMPANY);
 
   const handleFormDataChange = (f, val) => {
     setFormData((prevState) => ({
@@ -20,6 +29,12 @@ const CreateForm = ({ tableData, setTableData}) => {
   };
 
   useEffect(() => {
+    if (editFormData) {
+      setFormData(editFormData);
+    }
+  }, [editFormData]);
+
+  useEffect(() => {
     if (
       formData.classification === "" ||
       formData.name === "" ||
@@ -27,17 +42,32 @@ const CreateForm = ({ tableData, setTableData}) => {
     ) {
       return;
     }
-    if (id) update_Company({ variables: { data: { id, ...formData } } });
-    else {
-      const data = add_Company({ variables: { data: { ...formData } } });
+    if (formData.id) {
+      update_Company({ variables: { data: { ...formData } } });
+    } else {
+      const copyData = { ...formData };
+      delete copyData.id;
+      const data = add_Company({ variables: { data: { ...copyData } } });
       data.then((result) => {
-        console.log(result);
-        console.log(result.data?.createCompany?.id);
-        setId(result.data?.createCompany?.id);
+        formData.id = result.data?.createCompany?.id;
       });
     }
+
     console.log("formData : ", formData);
-  }, [formData]);
+  }, [sendCall]);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const codeElement = useRef();
+
+  const {code, onClick} = useCode();
+
+  const focusInput = async () => {
+    formData.code = await onClick();
+
+    codeElement.current.focus();
+  };
 
   return (
     <>
@@ -50,22 +80,22 @@ const CreateForm = ({ tableData, setTableData}) => {
           <Button
             className="square-big-button"
             type="primary"
-            onClick={() => {
-              setOpen(true);
-              setFormData(initialFormData);
-            }}
+            onClick={() => handleClick()}
           >
             Create
           </Button>
         </div>
       </div>
 
-    
       <Modal
         className="form-modal"
         open={open}
-        onOk={() => setOpen(false)}
-        onCancel={() => setOpen(false)}
+        destroyOnClose
+        onOk={() => setOpen(true)}
+        onCancel={() => {
+          setOpen(false);
+          setFormData(initialFormData);
+        }}
         width={1000}
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
@@ -90,41 +120,62 @@ const CreateForm = ({ tableData, setTableData}) => {
                         <div className="name-field">
                           <label>
                             Name{" "}
-                            <span style={{ color: "rgb(236,23,18)" }}>&#160;&#42;</span>
+                            <span style={{ color: "rgb(236,23,18)" }}>
+                              &#160;&#42;
+                            </span>
                           </label>
                           <input
                             type="text"
                             id="name"
                             placeholder="Enter..."
                             name="name"
-                            onBlur={(e) => {
+                            value={formData.name}
+                            onChange={(e) => {
                               handleFormDataChange("name", e.target.value);
                             }}
+                            onBlur={() => setSendCall(!sendCall)}
                             required
                           />
                         </div>
                         <div className="code-field">
                           <label>
                             Code{" "}
-                            <span style={{ color: "rgb(236,23,18)" }}>&#160;&#42;</span>
+                            <span style={{ color: "rgb(236,23,18)" }}>
+                              &#160;&#42;
+                            </span>
                           </label>
-                          <input
-                            type="text"
-                            id="code"
-                            placeholder="Enter..."
-                            name="code"
-                            onBlur={(e) =>
-                              handleFormDataChange("code", e.target.value)
-                            }
-                            required
-                          />
+                          <div className="unique-code">
+                            <input
+                              type="text"
+                              id="code"
+                              placeholder="Enter..."
+                              name="code"
+                              ref={codeElement}
+                              value={formData.code}
+                              onChange={(e) =>
+                                handleFormDataChange("code", e.target.value)
+                              }
+                              onBlur={() => setSendCall(!sendCall)}
+                              required
+                            />
+
+                            <button
+                              className="button-code"
+                              id="clear"
+                              onClick={focusInput}
+                            ></button>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <br />
                     <div className="status-container">
                       <label>Status</label>
-                      <select id="selectBox">
+                      <select
+                        id="selectBox"
+                        disabled={!formData.id}
+                        value={formData.currentStateCode}
+                      >
                         <option defaultChecked>Draft</option>
                         <option value="active">Active</option>
                         <option value="inactive">In-Active</option>
@@ -139,22 +190,29 @@ const CreateForm = ({ tableData, setTableData}) => {
                         id="description"
                         placeholder="Enter..."
                         name="description"
-                        onBlur={(e) =>
+                        value={formData.description}
+                        onChange={(e) =>
                           handleFormDataChange("description", e.target.value)
                         }
+                        onBlur={() => setSendCall(!sendCall)}
+                        disabled={!formData.id}
                       />
                     </div>
                     <br />
                     <div className="classifies">
                       <label>
                         Classification{" "}
-                        <span style={{ color: "rgb(236,23,18)" }}>&#160;&#42;</span>
+                        <span style={{ color: "rgb(236,23,18)" }}>
+                          &#160;&#42;
+                        </span>
                       </label>
                       <select
                         id="selectBox"
-                        onBlur={(e) =>
+                        value={formData.classification}
+                        onChange={(e) =>
                           handleFormDataChange("classification", e.target.value)
                         }
+                        onBlur={() => setSendCall(!sendCall)}
                         required
                       >
                         <option
@@ -185,9 +243,12 @@ const CreateForm = ({ tableData, setTableData}) => {
                         id="address"
                         placeholder="Enter..."
                         name="address"
-                        onBlur={(e) =>
+                        value={formData.address}
+                        onChange={(e) =>
                           handleFormDataChange("address", e.target.value)
                         }
+                        onBlur={() => setSendCall(!sendCall)}
+                        disabled={!formData.id}
                       />
                     </div>
 
@@ -200,9 +261,12 @@ const CreateForm = ({ tableData, setTableData}) => {
                           id="city"
                           placeholder="Enter..."
                           name="city"
-                          onBlur={(e) =>
+                          value={formData.city}
+                          onChange={(e) =>
                             handleFormDataChange("city", e.target.value)
                           }
+                          onBlur={() => setSendCall(!sendCall)}
+                          disabled={!formData.id}
                         />
                       </div>
                       <div className="info-field">
@@ -213,9 +277,12 @@ const CreateForm = ({ tableData, setTableData}) => {
                           id="state"
                           placeholder="Enter..."
                           name="state"
-                          onBlur={(e) =>
+                          value={formData.state}
+                          onChange={(e) =>
                             handleFormDataChange("state", e.target.value)
                           }
+                          onBlur={() => setSendCall(!sendCall)}
+                          disabled={!formData.id}
                         />
                       </div>
                       <div className="info-field">
@@ -226,9 +293,12 @@ const CreateForm = ({ tableData, setTableData}) => {
                           id="country"
                           placeholder="Enter..."
                           name="country"
-                          onBlur={(e) =>
+                          value={formData.country}
+                          onChange={(e) =>
                             handleFormDataChange("country", e.target.value)
                           }
+                          onBlur={() => setSendCall(!sendCall)}
+                          disabled={!formData.id}
                         />
                       </div>
                     </div>
