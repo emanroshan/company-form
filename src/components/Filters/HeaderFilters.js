@@ -6,17 +6,17 @@ const HeaderFilters = ({
   columns,
   handleFilterChange,
 }) => {
+
   return (
     <div className="header-filters">
       {columns.map((column) => (
         <Select
-          style={{ width: "200px" }}
           value={column.caption}
           mode="multiple"
         >
           {dataSource &&
             dataSource.map((data) => (
-              <Select.Option key={data?.[column.id]}>
+              <Select.Option key={data?.[column.id]} className="filter-menu-option">
                 <Checkbox
                   value={data?.[column.dataField]}
                   onClick={(e) =>

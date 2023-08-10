@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Select, Checkbox } from "antd";
-import { disabledColumns } from "../constants";
 
 const Selector = (props) => {
-
   const setCloumns = (value) => {
     if (props.setFilterColumns) {
       props.setFilterColumns((prevState) => {
@@ -15,8 +13,8 @@ const Selector = (props) => {
       });
     }
   };
-  const disabledCols = ["name", "code"];
-
+  const disabledCols = ["name", "currentStateCode"];
+ 
   return (
     <>
       <Select
@@ -29,13 +27,13 @@ const Selector = (props) => {
         showSearch={false}
       >
         {props.columns.map((column) => (
-          <Select.Option value={column.caption}>
+          <Select.Option value={column.caption} className="filter-menu-option">
             <Checkbox
               onClick={() => setCloumns(column)}
               disabled={disabledCols.includes(column.dataField)}
-              {...disabledCols.includes(column.dataField) && {
+              {...(disabledCols.includes(column.dataField) && {
                 checked: true,
-              }}
+              })}
             >
               {column.caption}
             </Checkbox>

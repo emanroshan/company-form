@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import NameCellRender from "./NameCellRender";
+import StatusCellRender from "./StatusCellRender"
 
 export const GET_COMPANIES = gql`
   query getAllCom($pageInfo: PageInfoInput) {
@@ -14,18 +15,11 @@ export const GET_COMPANIES = gql`
         state
         address
         city
+        currentStateCode
       }
     }
   }
 `;
-
-export const GET_UNIQUECODE = gql`
-query GetUniqueCode($concept: PropertyConcept) {
-    getUniqueCode(concept: $concept) {
-      code     
-    }
-  }
-  `;
 
 export const CREATE_COMPANY = gql`
   mutation createCompany($data: CreateCompanyInput!) {
@@ -39,6 +33,8 @@ export const CREATE_COMPANY = gql`
       address
       state
       description
+      currentStateId
+      currentStateCode
     }
   }
 `;
@@ -55,10 +51,25 @@ export const UPDATE_COMPANY = gql`
       state
       address
       description
+      currentStateId
+      currentStateCode
     }
   }
 `;
 
+export const UPDATE_COMPANY_STATE = gql`
+  mutation ChangeCompanyState($Id: Int!, $stateId: Int!) {
+    changeCompanyState(id: $Id, stateId: $stateId)
+  }
+`;
+
+export const GET_UNIQUECODE = gql`
+  query GetUniqueCode($concept: PropertyConcept) {
+    getUniqueCode(concept: $concept) {
+      code
+    }
+  }
+`;
 export const initialFormData = {
   id: "",
   name: "",
@@ -72,40 +83,25 @@ export const initialFormData = {
 };
 
 export const columns = [
-  {
-    dataField: "name",
-    caption: "Name",
-    width: 200,
-    cellRender: (e) => <NameCellRender e={e} />,
-  },
+  {dataField: "name", caption: "Name", width: 200, cellRender: (e) => <NameCellRender e={e} />},
   { dataField: "code", caption: "Code", width: 200 },
-  { dataField: "status", caption: "Status", width: 200, allowEditing: true },
-  {
-    dataField: "description",
-    caption: "Description",
-    width: 200,
-    allowHeaderFiltering: false,
-  },
+  { dataField: "currentStateCode", caption: "Status", width: 200, allowEditing: true, editCellRender: (cell) => <StatusCellRender cell={cell} />},
+  {dataField: "description",caption: "Description",width: 200,allowHeaderFiltering: false,},
   { dataField: "classification", caption: "Classification", width: 200 },
-  {
-    dataField: "address",
-    caption: "Address",
-    width: 200,
-    allowHeaderFiltering: false,
-  },
-  {
-    dataField: "city",
-    caption: "City",
-    width: 200,
-    allowHeaderFiltering: false,
-  },
+  {dataField: "address",caption: "Address",width: 200,allowHeaderFiltering: false},
+  {dataField: "city",caption: "City",width: 200,allowHeaderFiltering: false},
   { dataField: "state", caption: "State", width: 200 },
   { dataField: "country", caption: "Country", width: 200 },
 ];
 
+export const filter_columns = [
+    {dataField: "name", caption: "Name", width: 200},
+    { dataField: "currentStateCode", caption: "Status", width: 200},
+    { dataField: "classification", caption: "Classification", width: 200 },
+]
 export const disabledColumns = [
   { dataField: "name", caption: "Name", width: 200 },
-  { dataField: "code", caption: "Code", width: 200 },
+  { dataField: "currentStateCode", caption: "Status", width: 200},
 ];
 
 export const filteredColumnsValues = {
@@ -121,16 +117,7 @@ export const filteredColumnsValues = {
 };
 
 export const statuses = [
-  {
-    id: 1,
-    name: "Draft",
-  },
-  {
-    id: 2,
-    name: "Active",
-  },
-  {
-    id: 3,
-    name: "In-Active",
-  },
+  { id: 1, name: "Draft"},
+  { id: 3, name: "Active"},
+  { id: 4, name: "In-Active"},
 ];

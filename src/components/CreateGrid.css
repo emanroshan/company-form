@@ -1,22 +1,78 @@
-.search-headers
-{
+.search-headers {
   display: inline-flex;
   justify-content: space-between;
+  margin-left: 70px;
 }
 
-.search-panel
-{
-  width: 120px;
+.search-panel {
+  width: 100px;
   display: block;
   margin-bottom: 50px;
-
+  cursor: pointer;
 }
 
 
-.header-panel
-{
+.header-panel {
   padding-left: 20px;
   display: block;
-  
+}
+.grid-pager .dx-treelist-rowsview {
+  height: 55vh !important;
+  overflow: scroll;
+}
+.header-filters .ant-select,
+.search-panel .ant-select {
+  width: 100px !important;
+  margin-right: 10px;
 }
 
+.header-filters .ant-select :hover,
+.search-panel .ant-select :hover {
+  background-color: rgb(230, 239, 254);
+}
+.header-filters .ant-select-selection-overflow-item-suffix,
+.header-filters .ant-select-selection-item-remove,
+.search-panel .ant-select-selection-item-remove,
+.grid-pager .dx-treelist-empty-space {
+  display: none !important;
+}
+.header-filters .ant-select-selection-item,
+.search-panel .ant-select-selection-item {
+  background: none;
+}
+.ant-select-dropdown:has(.filter-menu-option) {
+  width: 250px !important;
+}
+.grid-pager{
+
+  margin-left:60px;
+  margin-right: 20px;
+}
+.grid-pager .dx-header-row{
+  background-color: #f7faff;
+  color: rgb(34, 47, 89);
+  font-size: 16px;
+  font-weight: 500;
+ 
+}
+.grid-pager .dx-treelist-rowsview,
+.grid-pager .dx-treelist-headers,
+.grid-pager td{
+  border: none !important;
+}
+.grid-pager td{
+  border-bottom: 1px solid rgba(213, 229, 254, 0.4) !important;
+  padding: 14px !important;
+}
+.grid-pager .dx-treelist-rowsview td {
+  color: rgb(34, 47, 89);
+  font-size: 16px;
+  font-weight: 400;
+}
+.grid-pager .dx-treelist-rowsview td:first-child {
+  font-weight: 500;
+}
+.grid-pager .dx-treelist-rowsview td:first-child:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
