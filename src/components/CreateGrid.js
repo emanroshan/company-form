@@ -78,10 +78,7 @@ const CreateGrid = () => {
     }
   };
 
-  function handleEditData() {
-    setOpen(!open);
-  }
-
+ 
   return (
     <>
       <div className="search-headers">
@@ -94,7 +91,7 @@ const CreateGrid = () => {
             filterValues={filterValues}
             handleFilterChange={handleFilterChange}
             dataSource={
-              data?.companies?.data ? data?.companies?.data : gridData
+                  data?.companies?.data ? data?.companies?.data : gridData
             }
           />
         </div>
@@ -116,8 +113,7 @@ const CreateGrid = () => {
             showPageSizeSelector
             allowedPageSizes={allowedPageSizes}
             showNavigationButtons
-            showInfo
-            infoText="Rows"
+           
             displayMode="compact"
             visible
           />

@@ -85,7 +85,7 @@ export const initialFormData = {
 export const columns = [
   {dataField: "name", caption: "Name", width: 200, cellRender: (e) => <NameCellRender e={e} />},
   { dataField: "code", caption: "Code", width: 200 },
-  { dataField: "currentStateCode", caption: "Status", width: 200, allowEditing: true, editCellRender: (cell) => <StatusCellRender cell={cell} />},
+  { dataField: "currentStateCode", caption: "Status", width: 200, allowEditing: true},
   {dataField: "description",caption: "Description",width: 200,allowHeaderFiltering: false,},
   { dataField: "classification", caption: "Classification", width: 200 },
   {dataField: "address",caption: "Address",width: 200,allowHeaderFiltering: false},
