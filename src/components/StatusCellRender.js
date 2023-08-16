@@ -5,10 +5,8 @@ import { useMutation } from '@apollo/client';
 
 const statusLabel = { 'aria-label': 'Status' };
 
-
-const StatusCellRender = ({ cell}) => {
-    const [status_Company, { data, loading, error }] = useMutation(UPDATE_COMPANY_STATE);
-
+const StatusCellRender = ({ cell, value, onChange, disabled }) => {
+  const [status_Company, { data, loading, error }] = useMutation(UPDATE_COMPANY_STATE);
 
   const itemRender = (data) => {
     if (data != null) {
@@ -22,22 +20,27 @@ const StatusCellRender = ({ cell}) => {
   };
 
   const handleValueChanged = (e) => {
+    if (onChange) {
+      onChange(e.value);
+    }
 
-      if (cell && cell.setValue) {
-        cell.setValue(e.value)
-      }
+    if (cell && cell.setValue) {
+      cell.setValue(e.value);
+    }
 
     status_Company({ variables: { Id: cell.data.id, stateId: e.value } });
   };
+
   return (
     <SelectBox
-    value={cell.value}
-    dataSource={statuses}
-    displayExpr="name"
-    valueExpr="id"
-    onValueChanged={handleValueChanged}
-    inputAttr={statusLabel}
-    itemRender={itemRender}
+      value={value}
+      dataSource={statuses}
+      displayExpr="name"
+      valueExpr="id"
+      onValueChanged={handleValueChanged}
+      inputAttr={statusLabel}
+      itemRender={itemRender}
+      disabled={disabled}
     />
   );
 };

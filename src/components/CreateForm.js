@@ -54,10 +54,13 @@ const CreateForm = () => {
       return;
     }
     if (formData.id) {
-      update_Company({ variables: { data: { ...formData } } });
+      const copyData = { ...formData };
+      delete copyData.currentStateCode;
+      update_Company({ variables: { data: { ...copyData } } });
     } else {
       const copyData = { ...formData };
       delete copyData.id;
+      delete copyData.currentStateCode;
       const data = add_Company({ variables: { data: { ...copyData } } });
       data.then((result) => {
         formData.id = result.data?.createCompany?.id;
@@ -212,12 +215,11 @@ const CreateForm = () => {
                         placeholder={status}
                         className={`${!formData.id && "disable"} status-cont`}
                         disabled={!formData.id}
-                        dataSource={statuses}
+                        dataSource={statuses.filter((data) => data.name !== status)}
                         displayExpr="name"
                         valueExpr="id"
                         onValueChanged={handleValueChanged}
                         inputAttr={statusLabel}
-                        itemRender={itemRender}
                       />
                     </div>
                     <br />

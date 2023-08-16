@@ -17,6 +17,7 @@ import { GET_COMPANIES, statuses } from "./constants";
 import Selector from "./Filters/Selector";
 import { columns, disabledColumns, filteredColumnsValues, filter_columns } from "./constants";
 import HeaderFilters from "./Filters/HeaderFilters";
+import { Divider } from 'antd';
 
 const allowedPageSizes = [5, 10, 20, 50, 100, 200];
 
@@ -81,10 +82,16 @@ const CreateGrid = () => {
  
   return (
     <>
+     
       <div className="search-headers">
+        <div className="search-divides">
+        <Divider type="vertical" />
+        </div>
+        
         <div className="search-panel">
           <Selector columns={filter_columns} setFilterColumns={setFilterColumns} />
         </div>
+         
         <div className="header-panel">
           <HeaderFilters
             columns={filterColumns}
@@ -96,7 +103,7 @@ const CreateGrid = () => {
           />
         </div>
       </div>
-
+      
       <div className="grid-pager">
         <TreeList
           dataSource={gridData}
@@ -119,6 +126,7 @@ const CreateGrid = () => {
           />
 
           <SearchPanel visible={true} />
+          
           {columns.map((column) => (
             <Column
               key={column.dataField}

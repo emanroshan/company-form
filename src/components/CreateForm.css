@@ -10,9 +10,6 @@
   min-height: 90vh;
   margin-right: 10px;
   margin-top: 5px;
-}
-
-.container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -23,7 +20,11 @@
   margin-right: 10px;
   margin-top: 5px;
 }
-.general input[type="text"]:focus {
+
+
+.general input[type="text"]:focus,
+.description input[type="textbox"]:focus,
+.status-cont input[type="selectbox"] :focus {
   outline: 1px solid rgb(34, 47, 89);
   background-color: rgb(230, 239, 254);
 }
@@ -86,9 +87,7 @@ label {
   width: 100%;
   padding: 8px;
   margin-bottom: 15px;
-  border: 1px solid rgb(215, 226, 245);
-  border-radius: 1.5px;
-  background-color: rgb(248,248,248)
+  background-color:transparent !important;
 }
 .status-container .dx-dropdowneditor-icon:focus
 {
@@ -101,6 +100,7 @@ label {
 }
 .status-container:focus
 {
+  background-color:rgb(230, 239, 254) !important;
   outline: 1px solid rgb(34, 47, 89);
 }
 
@@ -118,10 +118,7 @@ select:focus {
   padding-bottom: 100px;
   width: 97%;
 }
-.description input[type="textbox"]:focus {
-  outline: 1px solid rgb(34, 47, 89);
-  background-color: rgb(230, 239, 254);
-}
+
 .side-heading {
   width: 12%;
   font-size: 20px;
@@ -209,9 +206,9 @@ select:focus {
   color: rgb(34, 47, 89);
   margin-top: 13px;
 }
-button {
+.ant-btn {
   display: block;
-  margin-right: 15%;
+  margin-right: 200px;
   margin-top: 22px;
   width: 100px;
   height: 250px;
@@ -221,7 +218,7 @@ button {
 }
 
 .square-big-button {
-  background-color: rgb(87, 86, 251);
+  background-color: rgb(87,86,251);
   border: none;
   border-radius: 2px;
   color: white;
@@ -229,8 +226,6 @@ button {
   padding: 10px 15px 9px;
   font-size: 18px;
   height: 32px;
-  line-height: 1;
-  min-width: 72px;
   width: max-content;
   display: flex;
   align-items: center;
@@ -240,8 +235,9 @@ button {
   transition: 0.2s;
 }
 .square-big-button:hover {
-  background-color: rgb(87, 86, 251);
+  background-color: rgb(87,86,251);
   border: none;
+
 }
 .comp-heading {
   color: rgb(38, 55, 99);
