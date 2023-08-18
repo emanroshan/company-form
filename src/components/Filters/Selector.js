@@ -12,6 +12,7 @@ const Selector = (props) => {
         }
       });
     }
+    props.handleFilterChange(value.dataField, null, undefined, true);
   };
   const disabledCols = ["name", "currentStateCode"];
  

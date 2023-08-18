@@ -35,14 +35,10 @@ const CreateForm = () => {
   };
 
   useEffect(() => {
-    console.log(status);
-  }, [status]);
-  useEffect(() => {
     if (editFormData) {
       setFormData(editFormData);
       setStatus(editFormData.currentStateCode);
     }
-    console.log(editFormData);
   }, [editFormData]);
 
   useEffect(() => {
@@ -86,18 +82,8 @@ const CreateForm = () => {
     formData.code = "";
     setStatus("Draft");
   };
-  const itemRender = (data3) => {
-    if (data3 != null) {
-      return (
-        <div>
-          <span className="middle">{data3.name}</span>
-        </div>
-      );
-    }
-    return <span>(All)</span>;
-  };
 
-  const handleValueChanged = async (e) => {
+  const handleStatusChanged = async (e) => {
     if (!formData.id) {
       return;
     }
@@ -213,12 +199,14 @@ const CreateForm = () => {
                       <SelectBox
                         displayValue={status}
                         placeholder={status}
-                        className={`${!formData.id && "disable"} status-cont`}
+                        className={`${!formData.id && "disable"} status-container`}
                         disabled={!formData.id}
-                        dataSource={statuses.filter((data) => data.name !== status)}
+                        dataSource={statuses.filter(
+                          (data) => data.name !== status
+                        )}
                         displayExpr="name"
                         valueExpr="id"
-                        onValueChanged={handleValueChanged}
+                        onValueChanged={handleStatusChanged}
                         inputAttr={statusLabel}
                       />
                     </div>

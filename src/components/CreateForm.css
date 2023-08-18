@@ -21,10 +21,8 @@
   margin-top: 5px;
 }
 
-
 .general input[type="text"]:focus,
-.description input[type="textbox"]:focus,
-.status-cont input[type="selectbox"] :focus {
+.description input[type="textbox"]:focus {
   outline: 1px solid rgb(34, 47, 89);
   background-color: rgb(230, 239, 254);
 }
@@ -82,26 +80,22 @@ label {
   width: 250px;
   margin-left: 20px;
 }
-.status-cont
-{
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  background-color:transparent !important;
-}
-.status-container .dx-dropdowneditor-icon:focus
-{
-  background: transparent;
-}
+
 .status-container .dx-texteditor-input-container{
   width: 700px;
-  height: 35px;
-  
+  height: 34px;
+  background: white ;
+  font-size: 15px;
+  font-weight: 400;
 }
-.status-container:focus
-{
-  background-color:rgb(230, 239, 254) !important;
-  outline: 1px solid rgb(34, 47, 89);
+
+.status-container:has(.dx-state-disabled) .dx-placeholder::before,
+.status-container .dx-placeholder::before{
+  color: black;
+}
+.status-container .dx-texteditor-input-container :focus {
+  background-color: rgb(230, 239, 254) !important;
+  outline: rgb(34, 47, 89);
 }
 
 .classifies select {
@@ -111,7 +105,8 @@ label {
 select:focus {
   outline: 1px solid rgb(34, 47, 89);
 }
-.disable {
+.disable,
+.status-container:has(.dx-state-disabled) .dx-texteditor-input-container {
   background-color: rgb(248, 248, 248);
 }
 .description input {
@@ -143,7 +138,6 @@ select:focus {
   outline: 0px;
 }
 
-/* Add styles for the labels in the "Address" section */
 .address label {
   display: block;
   margin-bottom: 5px;
@@ -153,6 +147,7 @@ select:focus {
   width: 750px;
   padding: 8px;
 }
+
 .information {
   margin-top: 10px;
   display: inline-flex;
@@ -177,8 +172,7 @@ select:focus {
 }
 .header {
   flex-flow: wrap;
-
-  -webkit-box-pack: justify;
+  width: 100%;
   height: 70px;
   border: 1px solid rgb(239, 239, 239);
   padding: 3px 2px 2px 2px;
@@ -200,17 +194,16 @@ select:focus {
 .company h1 {
   display: block;
   width: 200px;
-  margin-right: 450px;
-  margin-left: 70px;
+  margin-left: 40%;
   margin-top: 20px;
   color: rgb(34, 47, 89);
   margin-top: 13px;
 }
 .ant-btn {
   display: block;
-  margin-right: 200px;
+  margin-right: 10%;
   margin-top: 22px;
-  width: 100px;
+  width: 100%;
   height: 250px;
   font-family: inherit;
   font-size: inherit;
@@ -218,7 +211,7 @@ select:focus {
 }
 
 .square-big-button {
-  background-color: rgb(87,86,251);
+  background-color: rgb(87, 86, 251);
   border: none;
   border-radius: 2px;
   color: white;
@@ -235,9 +228,8 @@ select:focus {
   transition: 0.2s;
 }
 .square-big-button:hover {
-  background-color: rgb(87,86,251);
+  background-color: rgb(87, 86, 251);
   border: none;
-
 }
 .comp-heading {
   color: rgb(38, 55, 99);
