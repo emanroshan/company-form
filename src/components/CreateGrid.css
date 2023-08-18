@@ -1,22 +1,174 @@
-.search-headers
-{
+.search-headers {
   display: inline-flex;
   justify-content: space-between;
+  margin-left: 350px;
 }
 
-.search-panel
-{
-  width: 120px;
+.search-panel {
+  width: 100px;
   display: block;
   margin-bottom: 50px;
-
-}
-
-
-.header-panel
-{
-  padding-left: 20px;
-  display: block;
+  cursor: pointer;
   
 }
 
+.header-filters .ant-select-selector,
+.search-panel .ant-select-selector{
+  border: none !important;
+  border-radius: none !important;
+  padding: 0;
+
+}
+.search-panel .ant-select-selection-item-content{
+  margin-left: 28px;
+}
+.search-panel .ant-select-arrow{
+  background-image: url("./filter-svgrepo-com.svg");
+  background-size: cover;
+  background-position: center;
+  margin-top: -11px;
+  margin-right: 80px;
+  height: 20px;
+  width: 23px;
+  border: none !important;
+}
+
+
+.ant-divider
+{
+  height: 35px;
+  background:rgb(215, 226, 245) ;
+  margin-right: 20px;
+  margin-left: 20px;
+
+}
+
+
+.header-panel {
+  padding-left: 30px;
+  display: block;
+}
+
+.grid-pager .dx-treelist-rowsview {
+  height: 50vh !important;
+  overflow: scroll;
+}
+
+.search-panel .ant-select {
+  width: 120px !important;
+  height: 30px;
+  margin-right: 10px;  
+  border: 1px solid rgb(215, 226, 245);
+  font-weight: 400;
+  font-size: 16px;
+}
+.header-filters .ant-select {
+  width: 90px !important;
+  margin-right: 10px;  
+  border: 1px solid rgb(215, 226, 245);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.header-filters .ant-select :hover,
+.search-panel .ant-select :hover{
+  color: rgb(88,102,154);
+  background-color: rgb(230, 239, 254);
+  font-weight: 400;
+  font-size: 16px;
+}
+.header-filters .ant-select-selection-overflow-item-suffix,
+.header-filters .ant-select-selection-item-remove,
+.search-panel .ant-select-selection-item-remove,
+.search-panel .anticon,
+.grid-pager .dx-treelist-empty-space {
+  display: none !important;
+}
+.header-filters .ant-select-selection-item,
+.search-panel .ant-select-selection-item {
+  background: none;
+}
+.ant-select-dropdown:has(.filter-menu-option) {
+  width: 200px !important;
+}
+.grid-pager{
+
+  margin-left:60px;
+  margin-right: 20px;
+}
+.grid-pager .dx-header-row{
+  background-color: #f7faff;
+  color: rgb(34, 47, 89);
+  font-size: 17px;
+  font-weight: 500;
+  box-shadow: 10px solid green;
+ 
+}
+.grid-pager td{
+  border: none !important;
+}
+.grid-pager .dx-treelist-rowsview,
+.grid-pager .dx-treelist-headers{
+  border: 1px solid  rgba(213, 229, 254, 0.4) !important;
+  border-radius: 1px;
+}
+.grid-pager td{
+  border-bottom: 1px solid rgba(213, 229, 254, 0.4) !important;
+  padding: 14px !important;
+}
+.grid-pager .dx-treelist-rowsview td {
+  color: rgb(34, 47, 89);
+  font-size: 16px;
+  font-weight: 400;
+}
+.grid-pager .dx-treelist-rowsview td:first-child,
+.grid-pager .dx-treelist-headers td:first-child{
+  border-right: 1px solid rgba(213, 229, 254, 0.4) !important;
+
+}
+
+.grid-pager .dx-treelist-rowsview td:first-child {
+  font-weight: 500;
+}
+.grid-pager .dx-treelist-rowsview td:first-child:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.dx-pages,
+.dx-page-sizes,
+.grid-pager .dx-treelist-rowsview,
+.grid-pager .dx-treelist-headers{
+  width: 100%;
+}
+.dx-page-indexes{
+  margin-left: 90%;
+  margin-top: -3%;
+}
+.dx-page-sizes .dx-show-invalid-badge{
+   width: 72px;
+  margin-left: 83%;
+  border-radius: 1px;
+  border: 1px solid rgb(215, 226, 245);
+}
+.dx-item-content, .dx-treelist-search-panel{
+  margin-top: -100px;
+  margin-right: 0px;
+
+  width: 263px !important;
+  height: 35px;
+}
+.dx-toolbar-after {
+  width: 100%;
+}
+.dx-item-content .dx-texteditor-input-container
+{
+  border: 1px solid rgb(215, 226, 245);
+  width: 100px;
+}
+.dx-navigate-button dx-next-button{
+  color:solid rgb(215, 226, 245);
+}
+.search-panel .ant-select-dropdown,
+.header-panel .ant-select-dropdown {
+  width: 105px;
+}

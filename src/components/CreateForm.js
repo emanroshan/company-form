@@ -6,20 +6,26 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
   CREATE_COMPANY,
   UPDATE_COMPANY,
+  UPDATE_COMPANY_STATE,
   initialFormData,
-  GET_UNIQUECODE,
+  statuses,
 } from "./constants";
-import {useCode} from "../hooks/useCode.js" 
+import { useCode } from "../hooks/useCode.js";
+import SelectBox from "devextreme-react/select-box";
+const statusLabel = { "aria-label": "Status" };
 
 const CreateForm = () => {
   const { editFormData, open, setOpen } = useContext(EditDataContext);
 
   const [formData, setFormData] = useState(initialFormData);
   const [sendCall, setSendCall] = useState(false);
+  const [status, setStatus] = useState("Draft");
 
   const [add_Company, { data, loading, error }] = useMutation(CREATE_COMPANY);
   const [update_Company, { data2, loading2, error2 }] =
     useMutation(UPDATE_COMPANY);
+  const [status_Company, { data3, loading3, error3 }] =
+    useMutation(UPDATE_COMPANY_STATE);
 
   const handleFormDataChange = (f, val) => {
     setFormData((prevState) => ({
@@ -31,6 +37,7 @@ const CreateForm = () => {
   useEffect(() => {
     if (editFormData) {
       setFormData(editFormData);
+      setStatus(editFormData.currentStateCode);
     }
   }, [editFormData]);
 
@@ -43,30 +50,51 @@ const CreateForm = () => {
       return;
     }
     if (formData.id) {
-      update_Company({ variables: { data: { ...formData } } });
+      const copyData = { ...formData };
+      delete copyData.currentStateCode;
+      update_Company({ variables: { data: { ...copyData } } });
     } else {
       const copyData = { ...formData };
       delete copyData.id;
+      delete copyData.currentStateCode;
       const data = add_Company({ variables: { data: { ...copyData } } });
       data.then((result) => {
         formData.id = result.data?.createCompany?.id;
       });
     }
-
-    console.log("formData : ", formData);
   }, [sendCall]);
 
   const handleClick = () => {
     setOpen(true);
   };
-  const codeElement = useRef();
 
-  const {code, onClick} = useCode();
+  const codeElement = useRef();
+  const { code, onClick } = useCode();
 
   const focusInput = async () => {
     formData.code = await onClick();
-
     codeElement.current.focus();
+  };
+
+  const handleModalClose = () => {
+    setOpen(false);
+    setFormData(initialFormData);
+    formData.code = "";
+    setStatus("Draft");
+  };
+
+  const handleStatusChanged = async (e) => {
+    if (!formData.id) {
+      return;
+    }
+    const { data } = await status_Company({
+      variables: { Id: formData.id, stateId: e.value },
+    });
+    if (data) {
+      if (e.value === 3) setStatus("Active");
+      else if (e.value === 4) setStatus("In-Active");
+      else setStatus("Draft");
+    }
   };
 
   return (
@@ -92,10 +120,7 @@ const CreateForm = () => {
         open={open}
         destroyOnClose
         onOk={() => setOpen(true)}
-        onCancel={() => {
-          setOpen(false);
-          setFormData(initialFormData);
-        }}
+        onCancel={() => handleModalClose()}
         width={1000}
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
@@ -119,7 +144,7 @@ const CreateForm = () => {
                       <div className="namecode">
                         <div className="name-field">
                           <label>
-                            Name{" "}
+                            Name
                             <span style={{ color: "rgb(236,23,18)" }}>
                               &#160;&#42;
                             </span>
@@ -139,7 +164,7 @@ const CreateForm = () => {
                         </div>
                         <div className="code-field">
                           <label>
-                            Code{" "}
+                            Code
                             <span style={{ color: "rgb(236,23,18)" }}>
                               &#160;&#42;
                             </span>
@@ -171,21 +196,25 @@ const CreateForm = () => {
                     <br />
                     <div className="status-container">
                       <label>Status</label>
-                      <select
-                        id="selectBox"
+                      <SelectBox
+                        displayValue={status}
+                        placeholder={status}
+                        className={`${!formData.id && "disable"} status-container`}
                         disabled={!formData.id}
-                        value={formData.currentStateCode}
-                      >
-                        <option defaultChecked>Draft</option>
-                        <option value="active">Active</option>
-                        <option value="inactive">In-Active</option>
-                      </select>
+                        dataSource={statuses.filter(
+                          (data) => data.name !== status
+                        )}
+                        displayExpr="name"
+                        valueExpr="id"
+                        onValueChanged={handleStatusChanged}
+                        inputAttr={statusLabel}
+                      />
                     </div>
                     <br />
                     <div className="description">
                       <label>Description</label>
                       <input
-                        className="description"
+                        className={`${!formData.id && "disable"} description`}
                         type="textbox"
                         id="description"
                         placeholder="Enter..."
@@ -243,6 +272,7 @@ const CreateForm = () => {
                         id="address"
                         placeholder="Enter..."
                         name="address"
+                        className={`${!formData.id && "disable"}`}
                         value={formData.address}
                         onChange={(e) =>
                           handleFormDataChange("address", e.target.value)
@@ -261,6 +291,7 @@ const CreateForm = () => {
                           id="city"
                           placeholder="Enter..."
                           name="city"
+                          className={`${!formData.id && "disable"}`}
                           value={formData.city}
                           onChange={(e) =>
                             handleFormDataChange("city", e.target.value)
@@ -277,6 +308,7 @@ const CreateForm = () => {
                           id="state"
                           placeholder="Enter..."
                           name="state"
+                          className={`${!formData.id && "disable"}`}
                           value={formData.state}
                           onChange={(e) =>
                             handleFormDataChange("state", e.target.value)
@@ -293,6 +325,7 @@ const CreateForm = () => {
                           id="country"
                           placeholder="Enter..."
                           name="country"
+                          className={`${!formData.id && "disable"}`}
                           value={formData.country}
                           onChange={(e) =>
                             handleFormDataChange("country", e.target.value)
